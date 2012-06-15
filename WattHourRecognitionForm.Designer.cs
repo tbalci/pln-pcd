@@ -1,6 +1,6 @@
-namespace LicensePlateRecognition
+namespace WattHourRecognition
 {
-   partial class LicensePlateRecognitionForm
+   partial class WattHourRecognitionForm
    {
       /// <summary>
       /// Required designer variable.
@@ -193,14 +193,14 @@ namespace LicensePlateRecognition
           // 
           this.openFileDialog1.FileName = "openFileDialog1";
           // 
-          // LicensePlateRecognitionForm
+          // WattHourRecognitionForm
           // 
           this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
           this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
           this.ClientSize = new System.Drawing.Size(1048, 712);
           this.Controls.Add(this.splitContainer1);
           this.Margin = new System.Windows.Forms.Padding(4);
-          this.Name = "LicensePlateRecognitionForm";
+          this.Name = "WattHourRecognitionForm";
           this.Text = "License Plate Recognition";
           this.Load += new System.EventHandler(this.LicensePlateRecognitionForm_Load);
           this.splitContainer1.Panel1.ResumeLayout(false);

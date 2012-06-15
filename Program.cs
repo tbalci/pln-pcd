@@ -9,7 +9,7 @@ using Emgu.CV;
 using Emgu.Util;
 using System.Runtime.InteropServices;
 
-namespace LicensePlateRecognition
+namespace WattHourRecognition
 {
    static class Program
    {
@@ -23,7 +23,7 @@ namespace LicensePlateRecognition
 
          Application.EnableVisualStyles();
          Application.SetCompatibleTextRenderingDefault(false);
-         Application.Run(new LicensePlateRecognitionForm());
+         Application.Run(new WattHourRecognitionForm());
       }
 
       /// <summary>

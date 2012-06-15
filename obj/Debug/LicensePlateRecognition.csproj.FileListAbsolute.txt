@@ -15,3 +15,5 @@ C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\LicensePlateRecognitionx -
 C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\LicensePlateRecognitionx - Copy (2)\obj\Debug\LicensePlateRecognition.Properties.Resources.resources
 C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\LicensePlateRecognitionx - Copy (2)\obj\Debug\GenerateResource-ResGen.read.1.tlog
 C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\LicensePlateRecognitionx - Copy (2)\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\Example.LicensePlateRecognition.exe
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\Example.LicensePlateRecognition.pdb

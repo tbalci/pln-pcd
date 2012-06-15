@@ -15,60 +15,61 @@ using Emgu.CV.UI;
 
 using System.Diagnostics;
 
-namespace LicensePlateRecognition
+namespace WattHourRecognition
 {
-   public partial class LicensePlateRecognitionForm : Form
+   public partial class WattHourRecognitionForm : Form
    {
-      private LicensePlateDetector _licensePlateDetector;
+      private WattHourDetector _WattHourDetector;
       //class ProcessedImage
       //{
       //    public Image<Gray, byte> image1 { get; set; }
       //    public Image<Bgr, byte> image2 { get; set; }
       //    public Image<Bgr, byte> image3 { get; set; }
-      //    public List<String> licenses { get; set; }
+      //    public List<String> wattHour { get; set; }
       //}
 
-      public LicensePlateRecognitionForm()
+      public WattHourRecognitionForm()
       {
          InitializeComponent();
-         _licensePlateDetector = new LicensePlateDetector();
+         _WattHourDetector = new WattHourDetector();
 
-         ProcessImage(new Image<Bgr, byte>("license-plate.jpg"));
+         //ProcessImage(new Image<Bgr, byte>("license-plate.jpg"));
       }
 
       private void ProcessImage(Image<Bgr, byte> image)
       {
          Stopwatch watch = Stopwatch.StartNew(); // time the detection process
 
-         List<Image<Gray, Byte>> licensePlateImagesList = new List<Image<Gray, byte>>();
-         List<Image<Gray, Byte>> filteredLicensePlateImagesList = new List<Image<Gray, byte>>();
-         List<MCvBox2D> licenseBoxList = new List<MCvBox2D>();
-        // List<string> words = _licensePlateDetector.DetectLicensePlate(
-         ProcessedImage processedImage = _licensePlateDetector.DetectLicensePlate(
+         List<Image<Gray, Byte>> wattHourImagesList = new List<Image<Gray, byte>>();
+         List<Image<Gray, Byte>> filteredWattHourImagesList = new List<Image<Gray, byte>>();
+         List<MCvBox2D> wattHourBoxList = new List<MCvBox2D>();
+        // List<string> words = _WattHourDetector.DetectWattHour(
+         
+         ProcessedImage processedImage = _WattHourDetector.DetectWattHour(
             image,
-            licensePlateImagesList,
-            filteredLicensePlateImagesList,
-            licenseBoxList);
-         List<string> words = processedImage.licenses;
+            wattHourImagesList,
+            filteredWattHourImagesList,
+            wattHourBoxList);
+         List<string> words = processedImage.wattHour;
          watch.Stop(); //stop the timer
-         processTimeLabel.Text = String.Format("License Plate Recognition time: {0} milli-seconds", watch.Elapsed.TotalMilliseconds);
+         processTimeLabel.Text = String.Format("Watt Hour Recognition time: {0} milli-seconds", watch.Elapsed.TotalMilliseconds);
 
          panel1.Controls.Clear();
+         Image<Bgr, byte> imageMarked = image.Clone();
          Point startPoint = new Point(10, 10);
 
          for (int i = 0; i < words.Count; i++)
          {
              AddLabelAndImage(
                 ref startPoint,
-                String.Format("License: {0}", words[i].Trim()),
-                licensePlateImagesList[i].ConcateVertical(filteredLicensePlateImagesList[i]));
-             image.Draw(licenseBoxList[i], new Bgr(Color.Red), 2);
+                String.Format("Watt Hour: {0}", words[i].Trim()),
+                wattHourImagesList[i].ConcateVertical(filteredWattHourImagesList[i]));
+             imageMarked.Draw(wattHourBoxList[i], new Bgr(Color.Red), 2);
          }
-
          imageBox1.Image = image;
          imageBox2.Image = processedImage.image1;
          imageBox3.Image = processedImage.image1.Canny(new Gray(100), new Gray(50));
-         imageBox4.Image = processedImage.image2;
+         imageBox4.Image = imageMarked;
       }
 
       private void AddLabelAndImage(ref Point startPoint, String labelText, IImage image)
@@ -98,13 +99,13 @@ namespace LicensePlateRecognition
             try
             {
                img = new Image<Bgr, byte>(openFileDialog1.FileName);
+               imageBox1.Image = img;
             }
             catch
             {
                MessageBox.Show(String.Format("Invalide File: {0}", openFileDialog1.FileName));
                return;
             }
-
             ProcessImage(img);
          }
       }
