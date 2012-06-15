@@ -56,6 +56,30 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.GPU, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.GPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.ML, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.ML.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.OCR, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.OCR.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util, Version=2.3.0.1416, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -87,27 +111,16 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Emgu.CV.OCR\Emgu.CV.OCR.csproj">
-      <Project>{FDA79B5F-80C6-41FA-A1D6-82DE69DBB4A1}</Project>
-      <Name>Emgu.CV.OCR</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Emgu.CV.UI\Emgu.CV.UI.csproj">
-      <Project>{90E78BBF-C7FE-4D8E-ADE1-75448E866FDB}</Project>
-      <Name>Emgu.CV.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Emgu.CV\Emgu.CV.csproj">
-      <Project>{9A1A77FE-F01B-495E-87B7-4B16E4F8C908}</Project>
-      <Name>Emgu.CV</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Emgu.Util\Emgu.Util.csproj">
-      <Project>{7C2C5325-8235-4A24-9C67-6BD79A4679E2}</Project>
-      <Name>Emgu.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="license-plate.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Emgu.Util.dll" />
+    <None Include="Resources\cvextern.dll" />
+    <None Include="Resources\Emgu.CV.dll" />
+    <None Include="Resources\Emgu.CV.OCR.dll" />
+    <None Include="Resources\Emgu.CV.UI.dll" />
+    <None Include="Resources\Emgu.CV.ML.dll" />
+    <None Include="Resources\Emgu.CV.GPU.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LicensePlateRecognitionForm.resx">

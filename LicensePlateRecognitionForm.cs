@@ -58,16 +58,17 @@ namespace LicensePlateRecognition
 
          for (int i = 0; i < words.Count; i++)
          {
-            AddLabelAndImage(
-               ref startPoint,
-               String.Format("License: {0}", words[i]),
-               licensePlateImagesList[i].ConcateVertical(filteredLicensePlateImagesList[i]));
-            image.Draw(licenseBoxList[i], new Bgr(Color.Red), 2);
+             AddLabelAndImage(
+                ref startPoint,
+                String.Format("License: {0}", words[i].Trim()),
+                licensePlateImagesList[i].ConcateVertical(filteredLicensePlateImagesList[i]));
+             image.Draw(licenseBoxList[i], new Bgr(Color.Red), 2);
          }
 
          imageBox1.Image = image;
          imageBox2.Image = processedImage.image1;
-         imageBox3.Image = processedImage.image1.Canny(new Gray(100), new Gray(60));
+         imageBox3.Image = processedImage.image1.Canny(new Gray(100), new Gray(50));
+         imageBox4.Image = processedImage.image2;
       }
 
       private void AddLabelAndImage(ref Point startPoint, String labelText, IImage image)
@@ -75,8 +76,8 @@ namespace LicensePlateRecognition
          Label label = new Label();
          panel1.Controls.Add(label);
          label.Text = labelText;
-         label.Width = 100;
-         label.Height = 30;
+         label.Width = 200;
+         label.Height = 100;
          label.Location = startPoint;
          startPoint.Y += label.Height;
 
