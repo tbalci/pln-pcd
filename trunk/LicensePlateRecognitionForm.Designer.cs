@@ -30,6 +30,9 @@ namespace LicensePlateRecognition
       {
           this.splitContainer1 = new System.Windows.Forms.SplitContainer();
           this.panel1 = new System.Windows.Forms.Panel();
+          this.imageBox4 = new Emgu.CV.UI.ImageBox();
+          this.imageBox3 = new Emgu.CV.UI.ImageBox();
+          this.imageBox2 = new Emgu.CV.UI.ImageBox();
           this.imageBox1 = new Emgu.CV.UI.ImageBox();
           this.panel2 = new System.Windows.Forms.Panel();
           this.processTimeLabel = new System.Windows.Forms.Label();
@@ -38,17 +41,14 @@ namespace LicensePlateRecognition
           this.button1 = new System.Windows.Forms.Button();
           this.label1 = new System.Windows.Forms.Label();
           this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-          this.imageBox2 = new Emgu.CV.UI.ImageBox();
-          this.imageBox3 = new Emgu.CV.UI.ImageBox();
-          this.imageBox4 = new Emgu.CV.UI.ImageBox();
           this.splitContainer1.Panel1.SuspendLayout();
           this.splitContainer1.Panel2.SuspendLayout();
           this.splitContainer1.SuspendLayout();
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).BeginInit();
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
           ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
           this.panel2.SuspendLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).BeginInit();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
           this.SuspendLayout();
           // 
           // splitContainer1
@@ -69,8 +69,8 @@ namespace LicensePlateRecognition
           this.splitContainer1.Panel2.Controls.Add(this.imageBox2);
           this.splitContainer1.Panel2.Controls.Add(this.imageBox1);
           this.splitContainer1.Panel2.Controls.Add(this.panel2);
-          this.splitContainer1.Size = new System.Drawing.Size(1218, 611);
-          this.splitContainer1.SplitterDistance = 332;
+          this.splitContainer1.Size = new System.Drawing.Size(1048, 712);
+          this.splitContainer1.SplitterDistance = 285;
           this.splitContainer1.SplitterWidth = 5;
           this.splitContainer1.TabIndex = 0;
           // 
@@ -81,17 +81,48 @@ namespace LicensePlateRecognition
           this.panel1.Location = new System.Drawing.Point(0, 0);
           this.panel1.Margin = new System.Windows.Forms.Padding(4);
           this.panel1.Name = "panel1";
-          this.panel1.Size = new System.Drawing.Size(332, 611);
+          this.panel1.Size = new System.Drawing.Size(285, 712);
           this.panel1.TabIndex = 0;
           this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+          // 
+          // imageBox4
+          // 
+          this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+          this.imageBox4.Location = new System.Drawing.Point(381, 372);
+          this.imageBox4.Margin = new System.Windows.Forms.Padding(4);
+          this.imageBox4.Name = "imageBox4";
+          this.imageBox4.Size = new System.Drawing.Size(368, 327);
+          this.imageBox4.TabIndex = 7;
+          this.imageBox4.TabStop = false;
+          // 
+          // imageBox3
+          // 
+          this.imageBox3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+          this.imageBox3.Location = new System.Drawing.Point(4, 372);
+          this.imageBox3.Margin = new System.Windows.Forms.Padding(4);
+          this.imageBox3.Name = "imageBox3";
+          this.imageBox3.Size = new System.Drawing.Size(369, 327);
+          this.imageBox3.TabIndex = 6;
+          this.imageBox3.TabStop = false;
+          // 
+          // imageBox2
+          // 
+          this.imageBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+          this.imageBox2.Location = new System.Drawing.Point(381, 41);
+          this.imageBox2.Margin = new System.Windows.Forms.Padding(4);
+          this.imageBox2.Name = "imageBox2";
+          this.imageBox2.Size = new System.Drawing.Size(368, 323);
+          this.imageBox2.TabIndex = 5;
+          this.imageBox2.TabStop = false;
+          this.imageBox2.Click += new System.EventHandler(this.imageBox2_Click);
           // 
           // imageBox1
           // 
           this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-          this.imageBox1.Location = new System.Drawing.Point(4, 99);
+          this.imageBox1.Location = new System.Drawing.Point(4, 42);
           this.imageBox1.Margin = new System.Windows.Forms.Padding(4);
           this.imageBox1.Name = "imageBox1";
-          this.imageBox1.Size = new System.Drawing.Size(644, 457);
+          this.imageBox1.Size = new System.Drawing.Size(369, 322);
           this.imageBox1.TabIndex = 4;
           this.imageBox1.TabStop = false;
           this.imageBox1.Click += new System.EventHandler(this.imageBox1_Click);
@@ -107,7 +138,7 @@ namespace LicensePlateRecognition
           this.panel2.Location = new System.Drawing.Point(0, 0);
           this.panel2.Margin = new System.Windows.Forms.Padding(4);
           this.panel2.Name = "panel2";
-          this.panel2.Size = new System.Drawing.Size(881, 100);
+          this.panel2.Size = new System.Drawing.Size(758, 44);
           this.panel2.TabIndex = 3;
           // 
           // processTimeLabel
@@ -130,7 +161,7 @@ namespace LicensePlateRecognition
           // 
           // textBox1
           // 
-          this.textBox1.Location = new System.Drawing.Point(97, 26);
+          this.textBox1.Location = new System.Drawing.Point(97, 11);
           this.textBox1.Margin = new System.Windows.Forms.Padding(4);
           this.textBox1.Name = "textBox1";
           this.textBox1.ReadOnly = true;
@@ -139,7 +170,7 @@ namespace LicensePlateRecognition
           // 
           // button1
           // 
-          this.button1.Location = new System.Drawing.Point(485, 23);
+          this.button1.Location = new System.Drawing.Point(485, 8);
           this.button1.Margin = new System.Windows.Forms.Padding(4);
           this.button1.Name = "button1";
           this.button1.Size = new System.Drawing.Size(100, 28);
@@ -151,7 +182,7 @@ namespace LicensePlateRecognition
           // label1
           // 
           this.label1.AutoSize = true;
-          this.label1.Location = new System.Drawing.Point(36, 30);
+          this.label1.Location = new System.Drawing.Point(36, 15);
           this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
           this.label1.Name = "label1";
           this.label1.Size = new System.Drawing.Size(34, 17);
@@ -162,42 +193,11 @@ namespace LicensePlateRecognition
           // 
           this.openFileDialog1.FileName = "openFileDialog1";
           // 
-          // imageBox2
-          // 
-          this.imageBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-          this.imageBox2.Location = new System.Drawing.Point(656, 99);
-          this.imageBox2.Margin = new System.Windows.Forms.Padding(4);
-          this.imageBox2.Name = "imageBox2";
-          this.imageBox2.Size = new System.Drawing.Size(218, 162);
-          this.imageBox2.TabIndex = 5;
-          this.imageBox2.TabStop = false;
-          this.imageBox2.Click += new System.EventHandler(this.imageBox2_Click);
-          // 
-          // imageBox3
-          // 
-          this.imageBox3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-          this.imageBox3.Location = new System.Drawing.Point(656, 269);
-          this.imageBox3.Margin = new System.Windows.Forms.Padding(4);
-          this.imageBox3.Name = "imageBox3";
-          this.imageBox3.Size = new System.Drawing.Size(218, 162);
-          this.imageBox3.TabIndex = 6;
-          this.imageBox3.TabStop = false;
-          // 
-          // imageBox4
-          // 
-          this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-          this.imageBox4.Location = new System.Drawing.Point(656, 439);
-          this.imageBox4.Margin = new System.Windows.Forms.Padding(4);
-          this.imageBox4.Name = "imageBox4";
-          this.imageBox4.Size = new System.Drawing.Size(218, 162);
-          this.imageBox4.TabIndex = 7;
-          this.imageBox4.TabStop = false;
-          // 
           // LicensePlateRecognitionForm
           // 
           this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
           this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-          this.ClientSize = new System.Drawing.Size(1218, 611);
+          this.ClientSize = new System.Drawing.Size(1048, 712);
           this.Controls.Add(this.splitContainer1);
           this.Margin = new System.Windows.Forms.Padding(4);
           this.Name = "LicensePlateRecognitionForm";
@@ -206,12 +206,12 @@ namespace LicensePlateRecognition
           this.splitContainer1.Panel1.ResumeLayout(false);
           this.splitContainer1.Panel2.ResumeLayout(false);
           this.splitContainer1.ResumeLayout(false);
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).EndInit();
+          ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
           ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
           this.panel2.ResumeLayout(false);
           this.panel2.PerformLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox3)).EndInit();
-          ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
           this.ResumeLayout(false);
 
       }
