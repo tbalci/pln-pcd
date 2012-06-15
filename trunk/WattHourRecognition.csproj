@@ -8,9 +8,9 @@
     <ProjectGuid>{288B46AF-CD8E-4503-BBEF-7D295A5D9E13}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LicensePlateRecognition</RootNamespace>
-    <AssemblyName>Example.LicensePlateRecognition</AssemblyName>
-    <StartupObject>LicensePlateRecognition.Program</StartupObject>
+    <RootNamespace>WattHourRecognition</RootNamespace>
+    <AssemblyName>WattHourRecognition</AssemblyName>
+    <StartupObject>WattHourRecognition.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -93,12 +93,12 @@
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="LicensePlateDetector.cs" />
-    <Compile Include="LicensePlateRecognitionForm.cs">
+    <Compile Include="WattHourRecognition.cs" />
+    <Compile Include="WattHourRecognitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LicensePlateRecognitionForm.Designer.cs">
-      <DependentUpon>LicensePlateRecognitionForm.cs</DependentUpon>
+    <Compile Include="WattHourRecognitionForm.Designer.cs">
+      <DependentUpon>WattHourRecognitionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -123,9 +123,9 @@
     <None Include="Resources\Emgu.CV.GPU.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LicensePlateRecognitionForm.resx">
+    <EmbeddedResource Include="WattHourRecognitionForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>LicensePlateRecognitionForm.cs</DependentUpon>
+      <DependentUpon>WattHourRecognitionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

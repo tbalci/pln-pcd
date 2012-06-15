@@ -11,7 +11,7 @@ using Emgu.CV.OCR;
 using Emgu.CV.Structure;
 using Emgu.Util;
 
-namespace LicensePlateRecognition
+namespace WattHourRecognition
 {
    /// <summary>
    /// A simple license plate detector
@@ -21,9 +21,9 @@ namespace LicensePlateRecognition
         public Image<Gray, byte> image1 { get; set; }
         public Image<Bgr, byte> image2 { get; set; }
         public Image<Gray, byte> image3 { get; set; }
-        public List<String> licenses { get; set; }
+        public List<String> wattHour { get; set; }
     }
-   public class LicensePlateDetector : DisposableObject
+   public class WattHourDetector : DisposableObject
    {
        public ProcessedImage processedImage = new ProcessedImage();
        
@@ -35,7 +35,7 @@ namespace LicensePlateRecognition
       /// <summary>
       /// Create a license plate detector
       /// </summary>
-      public LicensePlateDetector()
+      public WattHourDetector()
       {
          //create OCR engine
          _ocr = new Tesseract("tessdata", "eng", Tesseract.OcrEngineMode.OEM_TESSERACT_CUBE_COMBINED);
@@ -77,12 +77,12 @@ namespace LicensePlateRecognition
       /// Detect license plate from the given image
       /// </summary>
       /// <param name="img">The image to search license plate from</param>
-      /// <param name="licensePlateImagesList">A list of images where the detected license plate regions are stored</param>
-      /// <param name="filteredLicensePlateImagesList">A list of images where the detected license plate regions (with noise removed) are stored</param>
+      /// <param name="wattHourImagesList">A list of images where the detected license plate regions are stored</param>
+      /// <param name="filteredWattHourImagesList">A list of images where the detected license plate regions (with noise removed) are stored</param>
       /// <param name="detectedLicensePlateRegionList">A list where the regions of license plate (defined by an MCvBox2D) are stored</param>
       /// <returns>The list of words for each license plate</returns>
-      //public List<String> DetectLicensePlate(
-      public ProcessedImage DetectLicensePlate(
+      //public List<String> DetectWattHour(
+      public ProcessedImage DetectWattHour(
          Image<Bgr, byte> img, 
          List<Image<Gray, Byte>> licensePlateImagesList, 
          List<Image<Gray, Byte>> filteredLicensePlateImagesList, 
@@ -106,15 +106,15 @@ namespace LicensePlateRecognition
                  stor);
             processedImage.image1 = img.Convert<Gray, Byte>();//ubah ke greyscale
             //processedImage.image2 = canny;
-            processedImage.licenses = licenses;
-            FindLicensePlate(contours, gray, canny, licensePlateImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
+            processedImage.wattHour = licenses;
+            FindWattHour(contours, gray, canny, licensePlateImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
          }
 
           //CvInvoke.cvMeanShift(processedImage.image1,)
          //CvInvoke.cvPyrMeanShiftFiltering(processedImage.image1, processedImage.image2, 20, 40, 2, new MCvTermCriteria { type = Emgu.CV.CvEnum.TERMCRIT.CV_TERMCRIT_EPS});
          processedImage.image2 = new Image<Bgr, Byte>(img.Size);
           //CvInvoke.cvPyrMeanShiftFiltering(img, processedImage.image2, 40, 20, 1, new MCvTermCriteria(5, 1));
-          //return licenses;
+          //return wattHour;
          return processedImage;
       }
 
@@ -131,9 +131,9 @@ namespace LicensePlateRecognition
          return count;
       }
 
-      private void FindLicensePlate(
+      private void FindWattHour(
          Contour<Point> contours, Image<Gray, Byte> gray, Image<Gray, Byte> canny,
-         List<Image<Gray, Byte>> licensePlateImagesList, List<Image<Gray, Byte>> filteredLicensePlateImagesList, List<MCvBox2D> detectedLicensePlateRegionList,
+         List<Image<Gray, Byte>> wattHourImagesList, List<Image<Gray, Byte>> filteredLicensePlateImagesList, List<MCvBox2D> detectedLicensePlateRegionList,
          List<String> licenses)
       {
          for (; contours != null; contours = contours.HNext)
@@ -149,7 +149,7 @@ namespace LicensePlateRecognition
                {
                   //If the contour has less than 3 children, it is not a license plate (assuming license plate has at least 3 charactor)
                   //However we should search the children of this contour to see if any of them is a license plate
-                  FindLicensePlate(contours.VNext, gray, canny, licensePlateImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
+                  FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
                   continue;
                }
 
@@ -176,7 +176,7 @@ namespace LicensePlateRecognition
                   //However we should search the children of this contour to see if any of them is a license plate
                   Contour<Point> child = contours.VNext;
                   if (child != null)
-                     FindLicensePlate(child, gray, canny, licensePlateImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
+                     FindWattHour(child, gray, canny, wattHourImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
                   continue;
                }
 
@@ -215,9 +215,9 @@ namespace LicensePlateRecognition
                      //}
                   }
 
-                  //licenses.Add(strBuilder.ToString());
+                  //wattHour.Add(strBuilder.ToString());
                   licenses.Add(_ocr.GetText());
-                  licensePlateImagesList.Add(plate);
+                  wattHourImagesList.Add(plate);
                   filteredLicensePlateImagesList.Add(filteredPlate);
                   detectedLicensePlateRegionList.Add(box);
 

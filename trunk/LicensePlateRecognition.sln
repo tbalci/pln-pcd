@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicensePlateRecognition", "LicensePlateRecognition.csproj", "{288B46AF-CD8E-4503-BBEF-7D295A5D9E13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WattHourRecognition", "WattHourRecognition.csproj", "{288B46AF-CD8E-4503-BBEF-7D295A5D9E13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

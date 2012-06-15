@@ -1,0 +1,10 @@
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\ResolveAssemblyReference.cache
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\WattHourRecognition.Properties.Resources.resources
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\bin\license-plate.jpg
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\bin\WattHourRecognition.exe
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\bin\WattHourRecognition.pdb
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\WattHourRecognition.exe
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\WattHourRecognition.pdb
+C:\Emgu\emgucv-windows-x86 2.3.0.1416\Emgu.CV.Example\pln-pcd\obj\Debug\WattHourRecognition.WattHourRecognitionForm.resources
