@@ -100,8 +100,8 @@ namespace WattHourRecognition
              )
          {
      //        Image<Gray, byte> canny = CvInvoke.cvCreateImage(new System.Drawing.Size(400, 300), Emgu.CV.CvEnum.IPL_DEPTH.IPL_DEPTH_16S, 1);
-            CvInvoke.cvCanny(gray, canny, 100, 50, 3);
-           // CvInvoke.cvCanny(gray, canny, 100, 50, 3);
+           // CvInvoke.cvCanny(gray, canny, 15, 30, 3);
+           CvInvoke.cvCanny(gray, canny, 100, 50, 3);
            //CvInvoke.cvLaplace(gray, canny, 3);
              
             Contour<Point> contours = canny.FindContours(
@@ -153,13 +153,13 @@ namespace WattHourRecognition
             if (contours.Area > 1000)
             {
                 //wil
-                if (numberOfChildren < 3)
-                {
-                    //If the contour has less than 3 children, it is not a license wattHour (assuming license wattHour has at least 3 charactor)
-                    //However we should search the children of this contour to see if any of them is a license wattHour
-                    FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
-                    continue;
-                }
+                //if (numberOfChildren < 3)
+                //{
+                //    //If the contour has less than 3 children, it is not a license wattHour (assuming license wattHour has at least 3 charactor)
+                //    //However we should search the children of this contour to see if any of them is a license wattHour
+                //    FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
+                //    continue;
+                //}
 
                MCvBox2D box = contours.GetMinAreaRect();
                if (box.angle < -45.0)
