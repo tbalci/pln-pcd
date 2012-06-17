@@ -33,7 +33,7 @@ namespace WattHourRecognition
          InitializeComponent();
          _WattHourDetector = new WattHourDetector();
 
-         //ProcessImage(new Image<Bgr, byte>("license-plate.jpg"));
+         //ProcessImage(new Image<Bgr, byte>("license-wattHour.jpg"));
       }
 
       private void ProcessImage(Image<Bgr, byte> image)

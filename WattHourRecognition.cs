@@ -14,7 +14,7 @@ using Emgu.Util;
 namespace WattHourRecognition
 {
    /// <summary>
-   /// A simple license plate detector
+   /// A simple license wattHour detector
    /// </summary>
     public class ProcessedImage
     {
@@ -33,13 +33,13 @@ namespace WattHourRecognition
       private Tesseract _ocr;
 
       /// <summary>
-      /// Create a license plate detector
+      /// Create a license wattHour detector
       /// </summary>
       public WattHourDetector()
       {
          //create OCR engine
          _ocr = new Tesseract("tessdata", "eng", Tesseract.OcrEngineMode.OEM_TESSERACT_ONLY);
-         _ocr.SetVariable("tessedit_char_whitelist", " 1234567890");
+         _ocr.SetVariable("tessedit_char_whitelist", "0123456789");
       }
 
       /// <summary>
@@ -74,13 +74,13 @@ namespace WattHourRecognition
       }
 
       /// <summary>
-      /// Detect license plate from the given image
+      /// Detect license wattHour from the given image
       /// </summary>
-      /// <param name="img">The image to search license plate from</param>
-      /// <param name="wattHourImagesList">A list of images where the detected license plate regions are stored</param>
-      /// <param name="filteredWattHourImagesList">A list of images where the detected license plate regions (with noise removed) are stored</param>
-      /// <param name="detectedWattHourRegionList">A list where the regions of license plate (defined by an MCvBox2D) are stored</param>
-      /// <returns>The list of words for each license plate</returns>
+      /// <param name="img">The image to search license wattHour from</param>
+      /// <param name="wattHourImagesList">A list of images where the detected license wattHour regions are stored</param>
+      /// <param name="filteredWattHourImagesList">A list of images where the detected license wattHour regions (with noise removed) are stored</param>
+      /// <param name="detectedWattHourRegionList">A list where the regions of license wattHour (defined by an MCvBox2D) are stored</param>
+      /// <returns>The list of words for each license wattHour</returns>
       //public List<String> DetectWattHour(
       public ProcessedImage DetectWattHour(
          Image<Bgr, byte> img, 
@@ -147,7 +147,7 @@ namespace WattHourRecognition
          for (; contours != null; contours = contours.HNext)
          {
             int numberOfChildren = GetNumberOfChildren(contours);      
-            //if it does not contains any children (charactor), it is not a license plate region
+            //if it does not contains any children (charactor), it is not a license wattHour region
             if (numberOfChildren == 0) continue;
 
             if (contours.Area > 1000)
@@ -155,8 +155,8 @@ namespace WattHourRecognition
                 //wil
                 if (numberOfChildren < 3)
                 {
-                    //If the contour has less than 3 children, it is not a license plate (assuming license plate has at least 3 charactor)
-                    //However we should search the children of this contour to see if any of them is a license plate
+                    //If the contour has less than 3 children, it is not a license wattHour (assuming license wattHour has at least 3 charactor)
+                    //However we should search the children of this contour to see if any of them is a license wattHour
                     FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
                     continue;
                 }
@@ -181,8 +181,8 @@ namespace WattHourRecognition
              //  if (!(0.0 < whRatio && whRatio < 10.0))
                if (!(2.5 < whRatio && whRatio < 8.0))
                //if (!(2.5 < whRatio && whRatio < 3.0) && !(4.0 < whRatio && whRatio < 8.0))
-               {  //if the width height ratio is not in the specific range,it is not a license plate 
-                  //However we should search the children of this contour to see if any of them is a license plate
+               {  //if the width height ratio is not in the specific range,it is not a license wattHour 
+                  //However we should search the children of this contour to see if any of them is a license wattHour
                   Contour<Point> child = contours.VNext;
                   if (child != null)
                      FindWattHour(child, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
@@ -190,24 +190,24 @@ namespace WattHourRecognition
                }
 
                using (Image<Gray, Byte> tmp1 = gray.Copy(box))
-               //resize the license plate such that the front is ~ 10-12. This size of front results in better accuracy from tesseract
-              using (Image<Gray, Byte> tmp2 = tmp1.Resize(240, 180, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
+               //resize the license wattHour such that the front is ~ 10-12. This size of front results in better accuracy from tesseract
+               using (Image<Gray, Byte> tmp2 = tmp1.Resize(240, 180, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
                {
                   //removes some pixels from the edge
                   int edgePixelSize = 7;
                   tmp2.ROI = new Rectangle(new Point(edgePixelSize, edgePixelSize), tmp2.Size - new Size(2 * edgePixelSize, 2 * edgePixelSize));
                   Image<Gray, Byte> plate = tmp2.Copy();
-//                 Image<Gray, Byte> plate = tmp1.Copy();
+//                 Image<Gray, Byte> wattHour = tmp1.Copy();
 
-                 Image<Gray, Byte> filteredPlate = FilterPlate(plate);
+                 Image<Gray, Byte> filteredPlate = FilterWattHour(plate);
 
     //              Tesseract.Charactor[] words;
                   StringBuilder strBuilder = new StringBuilder();
                   using (Image<Gray, Byte> tmp = filteredPlate.Clone())
-                 // using (Image<Gray, Byte> tmp = plate.Clone())
-                  //using (Image<Gray, Byte> tmp = plate.Clone().ThresholdBinaryInv(new Gray(120), new Gray(255)))
+                 // using (Image<Gray, Byte> tmp = wattHour.Clone())
+                  //using (Image<Gray, Byte> tmp = wattHour.Clone().ThresholdBinaryInv(new Gray(120), new Gray(255)))
                   {
-                      //Image<Gray, Byte> plateMask = new Image<Gray, byte>(plate.Size);
+                      //Image<Gray, Byte> plateMask = new Image<Gray, byte>(wattHour.Size);
                     //  tmp.SetValue(0,plateMask);
                       //tmp.Erode(1);
                       //tmp.Dilate(1);
@@ -240,17 +240,17 @@ namespace WattHourRecognition
       }
 
       /// <summary>
-      /// Filter the license plate to remove noise
+      /// Filter the license wattHour to remove noise
       /// </summary>
-      /// <param name="plate">The license plate image</param>
-      /// <returns>License plate image without the noise</returns>
-      private static Image<Gray, Byte> FilterPlate(Image<Gray, Byte> plate)
+      /// <param name="wattHour">The license wattHour image</param>
+      /// <returns>License wattHour image without the noise</returns>
+      private static Image<Gray, Byte> FilterWattHour(Image<Gray, Byte> wattHour)
       {
-         //Image<Gray, Byte> thresh = plate.ThresholdBinaryInv(new Gray(120), new Gray(255));
-          Image<Gray, Byte> thresh = plate.ThresholdBinaryInv(new Gray(120), new Gray(255));
+         //Image<Gray, Byte> thresh = wattHour.ThresholdBinaryInv(new Gray(120), new Gray(255));
+          Image<Gray, Byte> thresh = wattHour.ThresholdBinary(new Gray(120), new Gray(255));
 
-         //using (Image<Gray, Byte> plateMask = new Image<Gray, byte>(plate.Size))
-         //using (Image<Gray, Byte> plateCanny = plate.Canny(new Gray(100), new Gray(50)))
+         //using (Image<Gray, Byte> plateMask = new Image<Gray, byte>(wattHour.Size))
+         //using (Image<Gray, Byte> plateCanny = wattHour.Canny(new Gray(100), new Gray(50)))
          //using (MemStorage stor = new MemStorage())
          //{
          //    //plateMask.SetValue(0.0);
@@ -263,10 +263,10 @@ namespace WattHourRecognition
          //    //   contours = contours.HNext)
          //    //{
          //    //    Rectangle rect = contours.BoundingRectangle;
-         //    //    if (rect.Height > (plate.Height >> 1))
+         //    //    if (rect.Height > (wattHour.Height >> 1))
          //    //    {
          //    //        rect.X -= 1; rect.Y -= 1; rect.Width += 2; rect.Height += 2;
-         //    //        rect.Intersect(plate.ROI);
+         //    //        rect.Intersect(wattHour.ROI);
 
          //    //        plateMask.Draw(rect, new Gray(0.0), -1);
          //    //    }
