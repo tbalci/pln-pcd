@@ -38,7 +38,7 @@ namespace WattHourRecognition
       public WattHourDetector()
       {
          //create OCR engine
-         _ocr = new Tesseract("tessdata", "eng", Tesseract.OcrEngineMode.OEM_TESSERACT_CUBE_COMBINED);
+         _ocr = new Tesseract("tessdata", "eng", Tesseract.OcrEngineMode.OEM_TESSERACT_ONLY);
          _ocr.SetVariable("tessedit_char_whitelist", " 1234567890");
       }
 
@@ -79,35 +79,43 @@ namespace WattHourRecognition
       /// <param name="img">The image to search license plate from</param>
       /// <param name="wattHourImagesList">A list of images where the detected license plate regions are stored</param>
       /// <param name="filteredWattHourImagesList">A list of images where the detected license plate regions (with noise removed) are stored</param>
-      /// <param name="detectedLicensePlateRegionList">A list where the regions of license plate (defined by an MCvBox2D) are stored</param>
+      /// <param name="detectedWattHourRegionList">A list where the regions of license plate (defined by an MCvBox2D) are stored</param>
       /// <returns>The list of words for each license plate</returns>
       //public List<String> DetectWattHour(
       public ProcessedImage DetectWattHour(
          Image<Bgr, byte> img, 
          List<Image<Gray, Byte>> licensePlateImagesList, 
-         List<Image<Gray, Byte>> filteredLicensePlateImagesList, 
-         List<MCvBox2D> detectedLicensePlateRegionList)
+         List<Image<Gray, Byte>> filteredWattHourImagesList, 
+         List<MCvBox2D> detectedWattHourRegionList)
       {
-         List<String> licenses = new List<String>();
+         List<String> wattHour = new List<String>();
          using (Image<Gray, byte> gray = img.Convert<Gray, Byte>())
          //using (Image<Gray, byte> gray = GetWhitePixelMask(img)) 
 
-         using (Image<Gray, Byte> canny = new Image<Gray, byte>(gray.Size))
-             
+         //using (IntPtr canny = CvInvoke.cvCreateImage(gray.Size, Emgu.CV.CvEnum.IPL_DEPTH.IPL_DEPTH_16S, 1))
+          using (Image<Gray, Byte> canny = new Image<Gray, byte>(gray.Size))
+         //using (IntPtr image = CvInvoke.cvCreateImage(new System.Drawing.Size(400, 300), Emgu.CV.CvEnum.IPL_DEPTH.IPL_DEPTH_16S, 1)) ;  
          using (
              MemStorage stor = new MemStorage()
              )
          {
-            //CvInvoke.cvCanny(gray, canny, 100, 50, 3);
+     //        Image<Gray, byte> canny = CvInvoke.cvCreateImage(new System.Drawing.Size(400, 300), Emgu.CV.CvEnum.IPL_DEPTH.IPL_DEPTH_16S, 1);
             CvInvoke.cvCanny(gray, canny, 100, 50, 3);
+           // CvInvoke.cvCanny(gray, canny, 100, 50, 3);
+           //CvInvoke.cvLaplace(gray, canny, 3);
+             
             Contour<Point> contours = canny.FindContours(
                  Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
                  Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_TREE,
                  stor);
+           // processedImage.image1 = img.Convert<Gray, Byte>();//ubah ke greyscale
             processedImage.image1 = img.Convert<Gray, Byte>();//ubah ke greyscale
-            //processedImage.image2 = canny;
-            processedImage.wattHour = licenses;
-            FindWattHour(contours, gray, canny, licensePlateImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
+            Image<Gray, Byte> kosong = new Image<Gray, byte>(gray.Size);
+            CvInvoke.cvDrawContours(kosong, contours, new MCvScalar(255,0,0), new MCvScalar(0,255,0), 3, 1,  Emgu.CV.CvEnum.LINE_TYPE.CV_AA, new Point(0,0));
+            //CvInvoke.cvShowImage("contours", kosong);
+             //processedImage.image2 = canny;
+            processedImage.wattHour = wattHour;
+            FindWattHour(contours, gray, canny, licensePlateImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
          }
 
           //CvInvoke.cvMeanShift(processedImage.image1,)
@@ -133,8 +141,8 @@ namespace WattHourRecognition
 
       private void FindWattHour(
          Contour<Point> contours, Image<Gray, Byte> gray, Image<Gray, Byte> canny,
-         List<Image<Gray, Byte>> wattHourImagesList, List<Image<Gray, Byte>> filteredLicensePlateImagesList, List<MCvBox2D> detectedLicensePlateRegionList,
-         List<String> licenses)
+         List<Image<Gray, Byte>> wattHourImagesList, List<Image<Gray, Byte>> filteredWattHourImagesList, List<MCvBox2D> detectedWattHourRegionList,
+         List<String> wattHour)
       {
          for (; contours != null; contours = contours.HNext)
          {
@@ -145,13 +153,13 @@ namespace WattHourRecognition
             if (contours.Area > 1000)
             {
                 //wil
-              if (numberOfChildren < 3) 
-               {
-                  //If the contour has less than 3 children, it is not a license plate (assuming license plate has at least 3 charactor)
-                  //However we should search the children of this contour to see if any of them is a license plate
-                  FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
-                  continue;
-               }
+                if (numberOfChildren < 3)
+                {
+                    //If the contour has less than 3 children, it is not a license plate (assuming license plate has at least 3 charactor)
+                    //However we should search the children of this contour to see if any of them is a license plate
+                    FindWattHour(contours.VNext, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
+                    continue;
+                }
 
                MCvBox2D box = contours.GetMinAreaRect();
                if (box.angle < -45.0)
@@ -170,36 +178,41 @@ namespace WattHourRecognition
                }
 
                double whRatio = (double)box.size.Width / box.size.Height;
+             //  if (!(0.0 < whRatio && whRatio < 10.0))
                if (!(2.5 < whRatio && whRatio < 8.0))
-               //if (!(1.0 < whRatio && whRatio < 2.0))
+               //if (!(2.5 < whRatio && whRatio < 3.0) && !(4.0 < whRatio && whRatio < 8.0))
                {  //if the width height ratio is not in the specific range,it is not a license plate 
                   //However we should search the children of this contour to see if any of them is a license plate
                   Contour<Point> child = contours.VNext;
                   if (child != null)
-                     FindWattHour(child, gray, canny, wattHourImagesList, filteredLicensePlateImagesList, detectedLicensePlateRegionList, licenses);
+                     FindWattHour(child, gray, canny, wattHourImagesList, filteredWattHourImagesList, detectedWattHourRegionList, wattHour);
                   continue;
                }
 
                using (Image<Gray, Byte> tmp1 = gray.Copy(box))
                //resize the license plate such that the front is ~ 10-12. This size of front results in better accuracy from tesseract
-               using (Image<Gray, Byte> tmp2 = tmp1.Resize(240, 180, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
+              using (Image<Gray, Byte> tmp2 = tmp1.Resize(240, 180, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC, true))
                {
                   //removes some pixels from the edge
                   int edgePixelSize = 7;
                   tmp2.ROI = new Rectangle(new Point(edgePixelSize, edgePixelSize), tmp2.Size - new Size(2 * edgePixelSize, 2 * edgePixelSize));
                   Image<Gray, Byte> plate = tmp2.Copy();
-                  //Image<Gray, Byte> plate = tmp1.Copy();
+//                 Image<Gray, Byte> plate = tmp1.Copy();
 
                  Image<Gray, Byte> filteredPlate = FilterPlate(plate);
 
-                  Tesseract.Charactor[] words;
+    //              Tesseract.Charactor[] words;
                   StringBuilder strBuilder = new StringBuilder();
                   using (Image<Gray, Byte> tmp = filteredPlate.Clone())
                  // using (Image<Gray, Byte> tmp = plate.Clone())
+                  //using (Image<Gray, Byte> tmp = plate.Clone().ThresholdBinaryInv(new Gray(120), new Gray(255)))
                   {
+                      //Image<Gray, Byte> plateMask = new Image<Gray, byte>(plate.Size);
+                    //  tmp.SetValue(0,plateMask);
+                      //tmp.Erode(1);
+                      //tmp.Dilate(1);
                       _ocr.Recognize(tmp);
-                    //_ocr.re
-                     words = _ocr.GetCharactors();
+                    // words = _ocr.GetCharactors();
                      Gray drawColor = new Gray();
 
                      Tesseract.Charactor[] charactors = _ocr.GetCharactors();
@@ -216,10 +229,10 @@ namespace WattHourRecognition
                   }
 
                   //wattHour.Add(strBuilder.ToString());
-                  licenses.Add(_ocr.GetText());
+                  wattHour.Add(_ocr.GetText());
                   wattHourImagesList.Add(plate);
-                  filteredLicensePlateImagesList.Add(filteredPlate);
-                  detectedLicensePlateRegionList.Add(box);
+                  filteredWattHourImagesList.Add(filteredPlate);
+                  detectedWattHourRegionList.Add(box);
 
                }
             }
@@ -236,34 +249,34 @@ namespace WattHourRecognition
          //Image<Gray, Byte> thresh = plate.ThresholdBinaryInv(new Gray(120), new Gray(255));
           Image<Gray, Byte> thresh = plate.ThresholdBinaryInv(new Gray(120), new Gray(255));
 
-         using (Image<Gray, Byte> plateMask = new Image<Gray, byte>(plate.Size))
-         using (Image<Gray, Byte> plateCanny = plate.Canny(new Gray(100), new Gray(50)))
-         using (MemStorage stor = new MemStorage())
-         {
-             plateMask.SetValue(0.0);
-             for (
-                Contour<Point> contours = plateCanny.FindContours(
-                   Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
-                   Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_EXTERNAL,
-                   stor);
-                contours != null;
-                contours = contours.HNext)
-             {
-                 Rectangle rect = contours.BoundingRectangle;
-                 if (rect.Height > (plate.Height >> 1))
-                 {
-                     rect.X -= 1; rect.Y -= 1; rect.Width += 2; rect.Height += 2;
-                     rect.Intersect(plate.ROI);
+         //using (Image<Gray, Byte> plateMask = new Image<Gray, byte>(plate.Size))
+         //using (Image<Gray, Byte> plateCanny = plate.Canny(new Gray(100), new Gray(50)))
+         //using (MemStorage stor = new MemStorage())
+         //{
+         //    //plateMask.SetValue(0.0);
+         //    //for (
+         //    //   Contour<Point> contours = plateCanny.FindContours(
+         //    //      Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
+         //    //      Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_EXTERNAL,
+         //    //      stor);
+         //    //   contours != null;
+         //    //   contours = contours.HNext)
+         //    //{
+         //    //    Rectangle rect = contours.BoundingRectangle;
+         //    //    if (rect.Height > (plate.Height >> 1))
+         //    //    {
+         //    //        rect.X -= 1; rect.Y -= 1; rect.Width += 2; rect.Height += 2;
+         //    //        rect.Intersect(plate.ROI);
 
-                     plateMask.Draw(rect, new Gray(0.0), -1);
-                 }
-             }
+         //    //        plateMask.Draw(rect, new Gray(0.0), -1);
+         //    //    }
+         //    //}
 
-             thresh.SetValue(0, plateMask);
-         }
+         //   // thresh.SetValue(0, plateMask);
+         //}
 
-        thresh._Erode(1);
-        thresh._Dilate(1);
+       thresh._Erode(1);
+       thresh._Dilate(1);
 
          return thresh;
       }
